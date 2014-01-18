@@ -7,8 +7,10 @@ import es.amadornes.techquake.lib.id.BlockIds;
 import es.amadornes.techquake.lib.id.RenderIds;
 import es.amadornes.techquake.render.RenderBoiler;
 import es.amadornes.techquake.render.RenderCable;
+import es.amadornes.techquake.render.RenderFurnace;
 import es.amadornes.techquake.render.RenderSteamTurbine;
 import es.amadornes.techquake.tileentity.electric.TileEntityCable;
+import es.amadornes.techquake.tileentity.electric.machine.TileEntityElectricFurnace;
 import es.amadornes.techquake.tileentity.powergen.TileEntityBoiler;
 import es.amadornes.techquake.tileentity.powergen.TileEntitySteamTurbine;
 
@@ -30,6 +32,10 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
         MinecraftForgeClient.registerItemRenderer(BlockIds.CABLE, new RenderCable());
 
+
+        RenderIds.FURNACE = RenderingRegistry.getNextAvailableRenderId();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectricFurnace.class, new RenderFurnace());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.FURNACE, new RenderFurnace());
         
         
         RenderIds.BOILER = RenderingRegistry.getNextAvailableRenderId();

@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import codechicken.multipart.TileMultipart;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import es.amadornes.techquake.api.electricity.EnergyNetwork;
@@ -23,7 +22,9 @@ import es.amadornes.techquake.api.loc.Vector3;
  * @website techquake.amadornes.es
  */
 
-public class TileEntityCable extends TileMultipart implements IEnergyConductor {
+public class TileEntityCable extends TileEntity implements IEnergyConductor {
+    
+    // extends TileMultipart implements IEnergyConductor {
     
     private EnergyNetwork net = null;
     

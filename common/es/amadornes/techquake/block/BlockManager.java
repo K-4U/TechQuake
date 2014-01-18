@@ -3,6 +3,7 @@ package es.amadornes.techquake.block;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import es.amadornes.techquake.TechQuake;
 import es.amadornes.techquake.block.electric.BlockCable;
 import es.amadornes.techquake.block.electric.BlockElectricFurnace;
 import es.amadornes.techquake.block.fluid.BlockSteam;
@@ -50,7 +51,7 @@ public class BlockManager {
         // BLOCK_UNLOCALIZED_NAME.getUnlocalizedName());
         
         CABLE = new BlockCable(BlockIds.CABLE);
-        if (Loader.isModLoaded("ForgeMultipart")) {
+        if (TechQuake.enableCompatFMP && Loader.isModLoaded("ForgeMultipart")) {
             GameRegistry.registerBlock(CABLE, ItemBlockMultiPartCable.class,
                     CABLE.getUnlocalizedName());
         } else {
@@ -85,7 +86,6 @@ public class BlockManager {
     public static void registerMultiParts() {
     
         new RegisterBlockPart(CABLE, MultiPartCable.class).init();
-        //MultipartGenerator.registerTrait(CABLE.getUnlocalizedName(), new TileEntityCable().getClass().getName(), new TileEntityCable().getClass().getName());
     }
     
 }

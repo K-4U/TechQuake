@@ -3,12 +3,9 @@ package es.amadornes.techquake.block.electric;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import codechicken.lib.raytracer.ExtendedMOP;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import es.amadornes.techquake.api.block.electric.BlockElectric;
@@ -47,17 +44,6 @@ public class BlockCable extends BlockElectric {
     public int getRenderType() {
     
         return RenderIds.CABLE;
-    }
-    
-    @Override
-    public MovingObjectPosition collisionRayTrace(World w, int x, int y, int z,
-            Vec3 start, Vec3 end) {
-    
-        MovingObjectPosition mop = super.collisionRayTrace(w, x, y, z, start,
-                end);
-        if (mop != null) return new ExtendedMOP(mop, null,
-                start.distanceTo(end));
-        return null;
     }
     
     @Override

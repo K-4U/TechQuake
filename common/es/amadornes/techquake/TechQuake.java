@@ -39,6 +39,8 @@ public class TechQuake {
     @SidedProxy(clientSide = ModInfo.CLIENT_PROXY, serverSide = ModInfo.SERVER_PROXY)
     public static CommonProxy proxy;
     
+    public static boolean enableCompatFMP = false;
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     
@@ -57,8 +59,9 @@ public class TechQuake {
         BlockManager.init();
         
         /* Register multiparts */
-        if(Loader.isModLoaded("ForgeMultipart"))
-            BlockManager.registerMultiParts();
+        if(enableCompatFMP)
+            if(Loader.isModLoaded("ForgeMultipart"))
+                BlockManager.registerMultiParts();
         
         /* Register items */
         ItemManager.init();

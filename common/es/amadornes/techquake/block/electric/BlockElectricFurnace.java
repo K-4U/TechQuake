@@ -24,6 +24,7 @@ import es.amadornes.techquake.TechQuake;
 import es.amadornes.techquake.api.block.electric.BlockElectric;
 import es.amadornes.techquake.creativetab.CreativeTabsTechQuake;
 import es.amadornes.techquake.lib.ModInfo;
+import es.amadornes.techquake.lib.id.RenderIds;
 import es.amadornes.techquake.tileentity.electric.machine.TileEntityElectricFurnace;
 
 public class BlockElectricFurnace extends BlockElectric {
@@ -106,12 +107,16 @@ public class BlockElectricFurnace extends BlockElectric {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
     
-        this.blockIcon = par1IconRegister.registerIcon(ModInfo.MOD_ID + ":machine/machine_side");
-        this.furnaceIconOn = par1IconRegister.registerIcon(ModInfo.MOD_ID + ":machine/furnace/furnace_front_on");
-        this.furnaceIconOff = par1IconRegister
-                .registerIcon(ModInfo.MOD_ID + ":machine/furnace/furnace_front_off");
-        this.furnaceIconTop = par1IconRegister.registerIcon(ModInfo.MOD_ID + ":machine/machine_top");
-        this.furnaceIconBottom = par1IconRegister.registerIcon(ModInfo.MOD_ID + ":machine/machine_bottom");
+        this.blockIcon = par1IconRegister.registerIcon(ModInfo.MOD_ID
+                + ":machine/machine_side");
+        this.furnaceIconOn = par1IconRegister.registerIcon(ModInfo.MOD_ID
+                + ":machine/furnace/furnace_front_on");
+        this.furnaceIconOff = par1IconRegister.registerIcon(ModInfo.MOD_ID
+                + ":machine/furnace/furnace_front_off");
+        this.furnaceIconTop = par1IconRegister.registerIcon(ModInfo.MOD_ID
+                + ":machine/machine_top");
+        this.furnaceIconBottom = par1IconRegister.registerIcon(ModInfo.MOD_ID
+                + ":machine/machine_bottom");
     }
     
     public boolean onBlockActivated(World world, int x, int y, int z,
@@ -265,4 +270,29 @@ public class BlockElectricFurnace extends BlockElectric {
         return Container.calcRedstoneFromInventory((IInventory) par1World
                 .getBlockTileEntity(par2, par3, par4));
     }
+    
+    @Override
+    public int getRenderType() {
+    
+        return RenderIds.FURNACE;
+    }
+    
+    @Override
+    public boolean renderAsNormalBlock() {
+    
+        return false;
+    }
+    
+    public boolean isOpaqueCube() {
+    
+        return false;
+    }
+    
+    @Override
+    public boolean isBlockSolid(IBlockAccess par1iBlockAccess, int par2,
+            int par3, int par4, int par5) {
+    
+        return false;
+    }
+    
 }

@@ -49,9 +49,7 @@ public class TileEntitySteamTurbine extends TileEntity implements
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
     
         if (canFill(from, resource.getFluid())) {
-            if (doFill) tank.fill(resource, doFill);
-            return Math.min(tank.getCapacity() - tank.getFluidAmount(),
-                    resource.amount);
+            return tank.fill(resource, doFill);
         }
         return 0;
     }
@@ -163,15 +161,16 @@ public class TileEntitySteamTurbine extends TileEntity implements
             float mul = 10;
             float speed = getAmount() * mul;
             rotation += speed * 2;
-            if (tank.getFluidAmount() > 0) {
-                int drain = Math.max(1, Math.min((int) (speed * 2), 5));
-                tank.drain(drain, true);
+            if (tank.getFluidAmount() > 0 && getStored() < getMaxStored()) {
+                int drain = Math.max(40, (int)(getAmount() * 40));
                 
-                double generated = getMaxStored();
-                generated *= getAmount();
-                generated = Math.floor(generated);
-                setBuffer((int) (buffer + Math.min(getMaxStored() - buffer,
-                        generated)));
+                if(drain > 0){
+                    double generated = getAmount() * Unit.LV.getPacketSize();
+                    generated = Math.floor(generated);
+                    setBuffer((int) (buffer + Math.min(getMaxStored() - buffer,
+                            generated)));
+                    tank.drain(drain, true);
+                }
             }
             
             PacketDispatcher.sendPacketToAllPlayers(getDescriptionPacket());

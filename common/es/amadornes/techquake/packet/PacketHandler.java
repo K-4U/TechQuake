@@ -5,13 +5,12 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import es.amadornes.techquake.lib.ModInfo;
@@ -42,7 +41,7 @@ public class PacketHandler implements IPacketHandler {
                 PacketType t = PacketType.valueOf(data.readUTF());
                 switch (t) {
                     case FURNACE_STATUS_CHANGE:
-                        onFurnaceStatusChangePacket(data);
+                        onFurnaceStatusChangePacket(data, (EntityPlayer) player);
                         break;
                 }
             }
@@ -50,20 +49,18 @@ public class PacketHandler implements IPacketHandler {
         }
     }
     
-    private void onFurnaceStatusChangePacket(DataInput data) throws Exception {
+    private void onFurnaceStatusChangePacket(DataInput data, EntityPlayer player) throws Exception {
     
         NBTTagCompound tag = readNBT(data);
         NBTTagCompound tile = tag.getCompoundTag("tile");
-        int dim = tile.getInteger("dim");
-        World w = null;
-        for(WorldServer wo : MinecraftServer.getServer().worldServers)
-            if(wo.provider.dimensionId == dim)
-                w = wo;
-        
+        World w = player.worldObj;
         if(w != null){
+            System.out.println("Updating");
             TileEntityElectricFurnace te = (TileEntityElectricFurnace) w.getBlockTileEntity(tile.getInteger("x"), tile.getInteger("y"), tile.getInteger("z"));
             te.isBurning = tag.getBoolean("isBurning");
-            w.markBlockForRenderUpdate(tile.getInteger("x"), tile.getInteger("y"), tile.getInteger("z"));
+            System.out.println("OldAngle: " + te.lidAngle);
+            te.lidAngle = tag.getDouble("angle");
+            System.out.println("NewAngle: " + te.lidAngle);
         }
     }
     

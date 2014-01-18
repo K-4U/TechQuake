@@ -2,6 +2,7 @@ package es.amadornes.techquake.multipart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
+import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.microblock.IHollowConnect;
 import codechicken.multipart.minecraft.McMetaPart;
@@ -17,7 +19,7 @@ import es.amadornes.techquake.block.BlockManager;
 import es.amadornes.techquake.tileentity.electric.TileEntityCable;
 
 public class MultiPartCable extends McMetaPart implements IHollowConnect {
-
+    
     @Override
     public Cuboid6 getBounds() {
     
@@ -37,8 +39,6 @@ public class MultiPartCable extends McMetaPart implements IHollowConnect {
     
         return BlockManager.CABLE.getUnlocalizedName();
     }
-    
-    
     
     @Override
     public TileEntity getTile() {
@@ -122,6 +122,18 @@ public class MultiPartCable extends McMetaPart implements IHollowConnect {
     public Iterable<Cuboid6> getOcclusionBoxes() {
     
         return getCollisionBoxes();
+    }
+    
+    @Override
+    public Iterable<IndexedCuboid6> getSubParts() {
+        
+        List<IndexedCuboid6> parts = new ArrayList<IndexedCuboid6>();
+        
+        for(Cuboid6 c : getCollisionBoxes()){
+            parts.add((IndexedCuboid6) c);
+        }
+    
+        return parts;
     }
     
 }

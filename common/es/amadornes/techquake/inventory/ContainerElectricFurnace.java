@@ -20,6 +20,7 @@ public class ContainerElectricFurnace extends Container {
             TileEntityElectricFurnace tile) {
     
         te = tile;
+        te.opened++;
         
         this.addSlotToContainer(new SlotSmeltable(te, 0, 32, 34));
         this.addSlotToContainer(new SlotSmeltable(te, 1, 54, 34));
@@ -134,6 +135,16 @@ public class ContainerElectricFurnace extends Container {
         if (par1 == 1) {
             this.te.progress = par2;
         }
+    }
+    
+    @Override
+    public void setPlayerIsPresent(EntityPlayer par1EntityPlayer, boolean par2) {
+        if(par2){
+            te.opened++;
+        }else{
+            te.opened--;
+        }
+        System.out.println("Player is present: " + par1EntityPlayer.username + " " + par2);
     }
     
 }

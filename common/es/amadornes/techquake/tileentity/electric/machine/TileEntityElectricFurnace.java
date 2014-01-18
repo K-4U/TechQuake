@@ -41,6 +41,9 @@ public class TileEntityElectricFurnace extends TileEntity implements
     public boolean      isBurning    = false;
     
     public double       progress     = 0;
+    public double       lidAngle     = 0;
+    
+    public int          opened       = 0;
     
     @Override
     public int getSizeInventory() {
@@ -114,7 +117,7 @@ public class TileEntityElectricFurnace extends TileEntity implements
     
     @Override
     public void closeChest() {
-    
+        opened--;
     }
     
     @Override
@@ -239,7 +242,7 @@ public class TileEntityElectricFurnace extends TileEntity implements
     @Override
     public int getMaxStored() {
     
-        return 10000;
+        return 50000;
     }
     
     @Override
@@ -278,6 +281,7 @@ public class TileEntityElectricFurnace extends TileEntity implements
     
         NBTTagCompound tag = new NBTTagCompound();
         tag.setBoolean("isBurning", isBurning);
+        tag.setDouble("angle", lidAngle);
         
         NBTTagCompound tile = new NBTTagCompound();
         tile.setInteger("x", xCoord);
@@ -302,6 +306,22 @@ public class TileEntityElectricFurnace extends TileEntity implements
                         xCoord, yCoord, zCoord));
             }
             net.tick(this);
+            
+            // Do lid animation
+            {
+                if (lidAngle <= 135 && opened > 0) {
+                    lidAngle += 5;
+                    PacketDispatcher.sendPacketToAllInDimension(
+                            new PacketFurnaceStausUpdate(this),
+                            worldObj.provider.dimensionId);
+                }
+                if (lidAngle >= 0 && opened <= 0) {
+                    lidAngle -= 5;
+                    PacketDispatcher.sendPacketToAllInDimension(
+                            new PacketFurnaceStausUpdate(this),
+                            worldObj.provider.dimensionId);
+                }
+            }
             
             // Do smelting
             {
@@ -338,18 +358,19 @@ public class TileEntityElectricFurnace extends TileEntity implements
                         if (decrease > 1) {
                             double pro = buffer;
                             pro /= getMaxStored();
+                            pro *= 5;
                             pro = Math.max(0.05, pro);
                             progress += pro;
                         }
                         
                         if (progress >= 50) {
-                            if(can0 && !can1){
+                            if (can0 && !can1) {
                                 burn(0);
                                 burn(0);
-                            }else if(can1 && !can0){
+                            } else if (can1 && !can0) {
                                 burn(1);
                                 burn(1);
-                            }else{
+                            } else {
                                 burn(0);
                                 burn(1);
                             }

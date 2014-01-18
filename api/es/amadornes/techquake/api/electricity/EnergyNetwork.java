@@ -159,14 +159,25 @@ public class EnergyNetwork {
                 consumed += p;
             }
             
-            double rel = outputted;
-            rel /= Math.max(consumed, 1);
-            rel = Math.min(rel, 1);
+            double rel = consumed;
+            if(outputted > 0){
+                rel /= outputted;
+                rel = Math.min(rel, 1);//Limits it to 0 - 1D
+            }else{
+                rel = 0;
+            }
+            
+            System.out.println("Out: " + outputted + " Cons: " + consumed + " Rel: " + rel);
             
             for (IEnergyAcceptor e : acceptors) {
-                double inserted = e.insertEnergy(e.getMaxInput(), false);
-                inserted *= rel;
-                e.insertEnergy((int)inserted, true);
+                double p = Math.max(e.insertEnergy(e.getMaxInput(), false), 0);
+                p *= rel;
+                e.insertEnergy((int) p, true);
+            }
+            for (IEnergyEmitter e : emitters) {
+                double p = Math.max(e.drainEnergy(e.getMaxOutput(), false), 0);
+                p *= rel;
+                e.drainEnergy((int) p, true);
             }
         }
     }
@@ -227,7 +238,7 @@ public class EnergyNetwork {
                     IElectric e = (IElectric) te;
                     if (e.canConnectOnSide(d.getOpposite())) {
                         if (!blacklist.contains(e)) {
-                            if (!tile.getEnergyNetwork().devices.contains(te)) {
+                            if (!tile.getEnergyNetwork().devices.contains(e)) {
                                 e.getEnergyNetwork().devices.remove(e);
                                 e.setEnergyNetwork(tile.getEnergyNetwork());
                                 tile.getEnergyNetwork().devices.add(e);
