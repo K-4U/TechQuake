@@ -1,0 +1,18 @@
+[
+{
+	"modid": "techquake",
+	"name": "TechQuake",
+	"version": "1.0 [build 001]",
+	"url": "http://techquake.amadornes.es/",
+    "updateUrl": "http://techquake.amadornes.es/#downloads",
+	"authorList": [
+	   "amadornes",
+	   "DavidJotta"
+	],
+	"credits": "By amadornes and DavidJotta",
+	"logoFile": "assets/techquake/textures/logo.png",
+	"screenshots": [],
+	"parent": "",
+	"dependencies": []
+}
+]

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+        <comment>English (en_US) Localization File</comment>
+        
+        <entry key="techquake.energy.unit">ChunkLed</entry>
+        <entry key="techquake.energy.unit.short">cl</entry>
+        
+        <entry key="tile.techquake.cable.name">Cable</entry>
+        <entry key="tile.techquake.boiler.name">Water Boiler</entry>
+        <entry key="tile.techquake.steamturbine.name">Steam Turbine</entry>
+        <entry key="tile.techquake.electricfurnace.name">Electric Furnace</entry>
+        
+        <entry key="itemGroup.techquake.metals">TQ Metals</entry>
+        <entry key="itemGroup.techquake.machines">TQ Machines</entry>
+</properties>
